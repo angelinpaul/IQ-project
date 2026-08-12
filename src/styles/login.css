@@ -775,6 +775,13 @@ form {
 
 @media (max-width: 1000px) {
 
+  .login-page {
+    background-image: url("../assets/farm-background-tablet.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
   .top-header {
     padding-right: 25px;
   }
@@ -802,11 +809,17 @@ form {
 @media (max-width: 760px) {
 
   .login-page {
-    min-height: 100vh;
+    min-height: 50vh;
 
     overflow-y: auto;
 
+    background-image: url("../assets/farm-background-mobile.png");
+
+    background-size: cover;
+
     background-position: center;
+
+    background-repeat: no-repeat;
   }
 
   .top-header {
