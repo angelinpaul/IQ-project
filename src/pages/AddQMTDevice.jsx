@@ -210,6 +210,80 @@ export default function AddQMTDevice({ messages }) {
         >
 
           {/* =================================================
+              FARM SECTION
+          ================================================= */}
+
+          <section className="farm-section">
+
+            <div className="section-header">
+
+              <div>
+
+                <h2>
+                  {messages.farmsSectionTitle}
+                </h2>
+
+                <p>
+                  {messages.farmsSectionDescription}
+                </p>
+
+              </div>
+
+
+              <button
+                type="button"
+                className="add-farm-button"
+                onClick={() =>
+                  setShowAddFarm(
+                    (previous) => !previous
+                  )
+                }
+              >
+
+                <Plus size={17} />
+
+                <span>
+                  {messages.addFarm}
+                </span>
+
+              </button>
+
+            </div>
+
+
+            {/* =================================================
+                ADD FARM BOX
+            ================================================= */}
+
+            {showAddFarm && (
+
+              <div className="add-farm-box">
+
+                <input
+                  type="text"
+                  value={newFarm}
+                  onChange={(event) =>
+                    setNewFarm(event.target.value)
+                  }
+                  placeholder={messages.newFarmPlaceholder}
+                  autoFocus
+                />
+
+                <button
+                  type="button"
+                  className="save-farm-button"
+                  onClick={addFarm}
+                >
+                  {messages.addFarm}
+                </button>
+
+              </div>
+
+            )}
+
+          </section>
+
+          {/* =================================================
               QMT DEVICE SECTION
           ================================================= */}
 
@@ -402,81 +476,6 @@ export default function AddQMTDevice({ messages }) {
               {messages.added}
 
             </div>
-
-          </section>
-
-
-          {/* =================================================
-              FARM SECTION
-          ================================================= */}
-
-          <section className="farm-section">
-
-            <div className="section-header">
-
-              <div>
-
-                <h2>
-                  {messages.farmsSectionTitle}
-                </h2>
-
-                <p>
-                  {messages.farmsSectionDescription}
-                </p>
-
-              </div>
-
-
-              <button
-                type="button"
-                className="add-farm-button"
-                onClick={() =>
-                  setShowAddFarm(
-                    (previous) => !previous
-                  )
-                }
-              >
-
-                <Plus size={17} />
-
-                <span>
-                  {messages.addFarm}
-                </span>
-
-              </button>
-
-            </div>
-
-
-            {/* =================================================
-                ADD FARM BOX
-            ================================================= */}
-
-            {showAddFarm && (
-
-              <div className="add-farm-box">
-
-                <input
-                  type="text"
-                  value={newFarm}
-                  onChange={(event) =>
-                    setNewFarm(event.target.value)
-                  }
-                  placeholder={messages.newFarmPlaceholder}
-                  autoFocus
-                />
-
-                <button
-                  type="button"
-                  className="save-farm-button"
-                  onClick={addFarm}
-                >
-                  {messages.addFarm}
-                </button>
-
-              </div>
-
-            )}
 
           </section>
 
