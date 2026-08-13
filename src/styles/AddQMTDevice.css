@@ -1,21 +1,21 @@
 :root {
   --device-green: #087c2b;
   --device-green-dark: #056c25;
-  --device-green-light: #eef8f0;
+  --device-green-light: #aaf1b8;
 
   --device-text: #0c192e;
   --device-muted: #66717c;
 
   --device-border: #d8e0db;
-  --device-border-light: #e5ebe7;
+  --device-border-light: #cdeed8;
 
   --device-card: #ffffff;
   --device-page: #f5f8f6;
 
   --device-danger: #c73b3b;
-  --device-danger-bg: #fff6f6;
+  --device-danger-bg: #ead9d9;
 
-  --device-info: #f2f9f1;
+  --device-info: #daf5d6;
 }
 
 .device-page {
@@ -112,7 +112,7 @@
 
   border-radius: 14px;
 
-  background: #fbfdfb;
+  background: #f8f9f8;
 }
 
 .section-header {

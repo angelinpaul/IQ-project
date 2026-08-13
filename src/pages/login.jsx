@@ -3,6 +3,7 @@ import "../styles/login.css";
 import english from "../en.json";
 import tamil from "../tn.json";
 import hindi from "../hindi.json";
+import chimertechLogo from "../assets/logo.png";
 
 const languages = [
   { code: "en", label: "English", messages: english },
@@ -63,6 +64,12 @@ const Login = ({ languageCode, onCreateAccount, onTranslationsChange, onLogin })
 
   return (
     <div className="login-page">
+
+      <img
+        className="chimertech-logo"
+        src={chimertechLogo}
+        alt="Chimertech Private Limited"
+      />
 
       {/* ================= LANGUAGE ================= */}
 
