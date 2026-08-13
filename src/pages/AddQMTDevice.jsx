@@ -7,6 +7,7 @@ import {
 
 import '../styles/AddQMTDevice.css';
 import qmtDevice from '../assets/qmt-device.png';
+import { requireSupabase } from '../lib/supabase';
 
 export default function AddQMTDevice({ messages }) {
   /* =====================================================
@@ -33,6 +34,8 @@ export default function AddQMTDevice({ messages }) {
   const [newFarm, setNewFarm] = useState('');
 
   const [showAddFarm, setShowAddFarm] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   /* =====================================================
      ADD DEVICE
@@ -119,31 +122,44 @@ export default function AddQMTDevice({ messages }) {
      SUBMIT
   ===================================================== */
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      const client = requireSupabase();
+      const { data: { user } } = await client.auth.getUser();
+      if (!user) throw new Error('Please log in before adding devices.');
+      if (devices.some(({ id, farm }) => !id.trim() || !farm.trim())) {
+        throw new Error('Every device needs a QMT ID and farm.');
+      }
 
-    /*
-      IMPORTANT:
+      const requestedFarms = [...new Set(devices.map(({ farm }) => farm.trim()))];
+      const { data: existing, error: readError } = await client.from('farms').select('id,name').eq('owner_id', user.id);
+      if (readError) throw readError;
+      const existingNames = new Set(existing.map(({ name }) => name.toLowerCase()));
+      const missing = requestedFarms.filter((name) => !existingNames.has(name.toLowerCase()));
+      if (missing.length) {
+        const { error: farmError } = await client.from('farms').insert(missing.map((name) => ({ owner_id: user.id, name })));
+        if (farmError) throw farmError;
+      }
 
-      Keep your existing backend / Supabase / API logic here.
-
-      The data structure being prepared is:
-
-      [
-        {
-          id: "QMT001",
-          name: "Main Shed Device",
-          farm: "Green Valley Farm"
-        },
-        {
-          id: "QMT002",
-          name: "Second Shed Device",
-          farm: "Sunrise Farm"
-        }
-      ]
-    */
-
-    console.log('QMT Devices:', devices);
+      const { data: farmRows, error: farmReadError } = await client.from('farms').select('id,name').eq('owner_id', user.id);
+      if (farmReadError) throw farmReadError;
+      const farmIds = new Map(farmRows.map((farm) => [farm.name.toLowerCase(), farm.id]));
+      const rows = devices.map((device) => ({
+        qmt_id: device.id.trim(),
+        name: device.name.trim() || null,
+        farm_id: farmIds.get(device.farm.trim().toLowerCase()),
+      }));
+      const { error } = await client.from('qmt_devices').insert(rows);
+      if (error) throw error;
+      setDevices([{ id: '', name: '', farm: '' }]);
+    } catch (error) {
+      setSubmitError(error.message);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -500,15 +516,17 @@ export default function AddQMTDevice({ messages }) {
               SUBMIT BUTTON
           ================================================= */}
 
+          {submitError && <small role="alert">{submitError}</small>}
           <button
             className="add-device-button"
             type="submit"
+            disabled={submitting}
           >
 
             <Plus size={18} />
 
             <span>
-              {(devices.length === 1 ? messages.submitSingular : messages.submitPlural)
+              {submitting ? 'Saving…' : (devices.length === 1 ? messages.submitSingular : messages.submitPlural)
                 .replace('{count}', devices.length)}
             </span>
 

@@ -9,9 +9,12 @@ export default function CreateAccount({ messages, onLogin, onRegister }) {
   const [fullName, setFullName] = useState('');
   const [countryCode, setCountryCode] = useState('+91');
   const [mobileNumber, setMobileNumber] = useState('');
+  const [farmName, setFarmName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const setError = (field, message) => setErrors((current) => ({ ...current, [field]: message }));
 
@@ -57,7 +60,7 @@ export default function CreateAccount({ messages, onLogin, onRegister }) {
     setError('confirmPassword', value === password ? '' : messages.validation.passwordsDoNotMatch);
   };
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
     const nextErrors = {
       fullName: fullName.trim() ? '' : messages.validation.fullNameRequired,
@@ -66,7 +69,18 @@ export default function CreateAccount({ messages, onLogin, onRegister }) {
       confirmPassword: confirmPassword && confirmPassword === password ? '' : messages.validation.passwordsDoNotMatch,
     };
     setErrors(nextErrors);
-    if (!Object.values(nextErrors).some(Boolean)) onRegister();
+    if (!Object.values(nextErrors).some(Boolean)) {
+      setSubmitting(true);
+      setSubmitError('');
+      try {
+        const data = await onRegister({ fullName, countryCode, mobileNumber, farmName, password });
+        if (!data.session) setSubmitError('Account created. Verify the OTP sent to your phone, then log in.');
+      } catch (error) {
+        setSubmitError(error.message);
+      } finally {
+        setSubmitting(false);
+      }
+    }
   };
 
   return <main className="register-page"><section className="register-card">
@@ -78,11 +92,12 @@ export default function CreateAccount({ messages, onLogin, onRegister }) {
         <label>{messages.mobileNumberLabel}<span className="phone-row"><select className="country-code" value={countryCode} aria-label={messages.countryCodeLabel} onChange={(event) => { setCountryCode(event.target.value); setMobileNumber(''); setError('mobileNumber', ''); }}>
           {Object.entries(messages.countries).map(([code, label]) => <option key={code} value={code}>{label}</option>)}
         </select><input type="tel" inputMode="numeric" placeholder={messages.mobileNumberPlaceholder} value={mobileNumber} maxLength={countryCode === '+91' ? 10 : 15} onChange={handleMobile} onBlur={() => setError('mobileNumber', validateMobile(mobileNumber))} aria-invalid={Boolean(errors.mobileNumber)} /></span>{errors.mobileNumber && <small role="alert">{errors.mobileNumber}</small>}</label>
-        <label>{messages.farmNameLabel}<span className="input-shell"><UserRound size={15} /><input type="text" placeholder={messages.farmNamePlaceholder} /></span></label>
+        <label>{messages.farmNameLabel}<span className="input-shell"><UserRound size={15} /><input type="text" placeholder={messages.farmNamePlaceholder} value={farmName} onChange={(event) => setFarmName(event.target.value)} /></span></label>
         <label>{messages.passwordLabel}<span className="input-shell"><LockKeyhole size={14} /><input type={showPassword ? 'text' : 'password'} placeholder={messages.passwordPlaceholder} value={password} onChange={handlePassword} onBlur={() => setError('password', validatePassword(password))} aria-invalid={Boolean(errors.password)} /><button type="button" className="eye-button" aria-label={messages.showPassword} onClick={() => setShowPassword(!showPassword)}>{showPassword ? <EyeOff size={15} /> : <Eye size={15} />}</button></span>{errors.password && <small role="alert">{errors.password}</small>}</label>
         <label>{messages.confirmPasswordLabel}<span className="input-shell"><LockKeyhole size={14} /><input type={showConfirm ? 'text' : 'password'} placeholder={messages.confirmPasswordPlaceholder} value={confirmPassword} onChange={handleConfirmPassword} onBlur={() => setError('confirmPassword', confirmPassword && confirmPassword === password ? '' : messages.validation.passwordsDoNotMatch)} aria-invalid={Boolean(errors.confirmPassword)} /><button type="button" className="eye-button" aria-label={messages.showConfirmPassword} onClick={() => setShowConfirm(!showConfirm)}>{showConfirm ? <EyeOff size={15} /> : <Eye size={15} />}</button></span>{errors.confirmPassword && <small role="alert">{errors.confirmPassword}</small>}</label>
         <label className="terms"><input type="checkbox" /><span>{messages.agreementPrefix} <a href="#terms">{messages.termsAndConditions}</a> {messages.agreementJoiner} <a href="#privacy">{messages.privacyPolicy}</a></span></label>
-        <button className="primary-button" type="submit">{messages.submit}</button>
+        {submitError && <small role="alert">{submitError}</small>}
+        <button className="primary-button" type="submit" disabled={submitting}>{submitting ? 'Creating account…' : messages.submit}</button>
       </form>
       <p className="login-copy">{messages.existingAccount} <a href="#login" onClick={onLogin}>{messages.login}</a></p>
     </div>

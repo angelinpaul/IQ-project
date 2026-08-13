@@ -10,7 +10,7 @@ const languages = [
   { code: "hi", label: "हिन्दी", messages: hindi },
 ];
 
-const Login = ({ languageCode, onCreateAccount, onTranslationsChange }) => {
+const Login = ({ languageCode, onCreateAccount, onTranslationsChange, onLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
 
@@ -23,8 +23,9 @@ const Login = ({ languageCode, onCreateAccount, onTranslationsChange }) => {
 
   const selectedLanguage = languages.find(({ code }) => code === languageCode) ?? languages[0];
   const messages = selectedLanguage.messages.login;
+  const backgroundMessages = selectedLanguage.messages.background;
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     const newErrors = {};
@@ -43,25 +44,14 @@ const Login = ({ languageCode, onCreateAccount, onTranslationsChange }) => {
       return;
     }
 
-    /*
-      IMPORTANT:
-      Replace this demo login section with your
-      existing Supabase/API authentication code.
-
-      Do not change your backend authentication.
-    */
-
     setLoading(true);
-
-    setTimeout(() => {
+    try {
+      await onLogin({ loginId, password, rememberMe });
+    } catch (error) {
+      setErrors({ form: error.message });
+    } finally {
       setLoading(false);
-
-      console.log("Login submitted:", {
-        loginId,
-        password,
-        rememberMe,
-      });
-    }, 1000);
+    }
   };
 
   const selectLanguage = (code) => {
@@ -119,9 +109,18 @@ const Login = ({ languageCode, onCreateAccount, onTranslationsChange }) => {
 
 
       {/* ================= LOGIN CARD ================= */}
+      <div className={`branding-text branding-${languageCode}`}>
+              <h1>
+                {backgroundMessages.headlineLineOne}<br />
+                {backgroundMessages.headlineLineTwo}
+              </h1>
+
+              <p>
+                {backgroundMessages.description}
+              </p>
+            </div>
 
       <section className="login-card">
-
         <div className="login-content">
 
           {/* Welcome */}
@@ -386,6 +385,8 @@ const Login = ({ languageCode, onCreateAccount, onTranslationsChange }) => {
 
 
             {/* ================= LOGIN ================= */}
+
+            {errors.form && <span className="error-message">{errors.form}</span>}
 
             <button
               type="submit"
