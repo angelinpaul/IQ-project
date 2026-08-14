@@ -18,9 +18,9 @@
   "languageSelector": {
     "english": "English",
     "tamil": "தமிழ்",
-    "hindi": "हिन्दी",
-    "kannada": "ಕನ್ನಡ",
-    "telugu": "తెలుగు"
+    "hindi": "Hindi",
+    "kannada": "Kannada",
+    "telugu": "Telugu"
   },
   "login": {
     "welcome": "वापसी पर स्वागत है!",

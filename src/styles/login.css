@@ -95,15 +95,36 @@ body {
   line-height: 1.6;
 }
 
-/* Hindi */
+/*kannada*/
+.branding-kn h1 {
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.branding-kn p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Telugu */
+.branding-te h1 {
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.branding-te p {
+  font-size: 22px;
+  line-height: 1.5;
+}
+/* hindi */
 .branding-hi h1 {
-  font-size: 38px;
-  line-height: 1.35;
+  font-size: 30px;
+  line-height: 1.2;
 }
 
 .branding-hi p {
-  font-size: 22px;
-  line-height: 1.5;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 /* =========================================================
@@ -409,7 +430,7 @@ body {
    FORM
 ========================================================= */
 
-form {
+.login-card form {
   margin-top: 36px;
 }
 
@@ -842,10 +863,10 @@ form {
 
   .login-page {
     min-height: 100svh;
-    padding: 150px 32px 32px;
+    padding: 104px 32px 28px;
     align-items: center;
     background-image: url("../assets/farm-background-tablet.png");
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
     overflow-y: auto;
@@ -862,7 +883,7 @@ form {
     left: auto;
     width: min(100%, 620px);
     max-width: 100%;
-    margin: 0 auto 28px;
+    margin: 0 auto 24px;
     padding: 0 16px;
     text-align: center;
   }
@@ -895,8 +916,8 @@ form {
     right: auto;
     width: min(100%, 410px);
     min-height: auto;
-    margin: 0 auto 28px;
-    padding: 42px 40px;
+    margin: 0 auto 24px;
+    padding: 38px 40px;
   }
 
   .footer {
@@ -922,11 +943,11 @@ form {
 
   .login-page {
     min-height: 100svh;
-    padding: 170px 16px 24px;
+    padding: 92px 16px 24px;
     align-items: center;
     overflow-y: auto;
     background-image: url("../assets/farm-background-mobile.png");
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
   }
@@ -985,12 +1006,14 @@ form {
     position: relative;
     top: auto;
     right: auto;
-    width: 90%;
-    max-width: 420px;
-    min-height: auto;
+    height: auto;
+    width: 100%;
+    max-width: 460px;
+    min-height: 0;
     margin: 0 auto 24px;
-    padding: 30px clamp(20px, 6vw, 30px);
-    border-radius: 16px;
+    padding: 32px clamp(22px, 7vw, 34px);
+    border-radius: 18px;
+    box-shadow: 0 14px 40px rgba(24, 57, 39, 0.18);
   }
 
   .welcome h2 {
@@ -1063,7 +1086,8 @@ form {
   }
 
   .login-card {
-    width: 90%;
+    width: 100%;
+    height: auto;
     padding: 26px 18px;
   }
 
@@ -1083,7 +1107,7 @@ form {
 @media (max-width: 340px) {
 
   .login-page {
-    padding-top: 145px;
+    padding-top: 76px;
   }
 
   .language-wrapper {
@@ -1099,5 +1123,30 @@ form {
     max-width: 100%;
     width: 100%;
     text-align: left;
+  }
+}
+
+/* Keep the desktop composition usable on shorter laptop displays. */
+@media (min-width: 1101px) and (max-height: 760px) {
+  .login-card {
+    top: 78px;
+    min-height: 0;
+    padding: 32px 42px;
+  }
+
+  .login-card form {
+    margin-top: 24px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .register-text {
+    margin-top: 24px;
+  }
+
+  .branding-text {
+    top: 165px;
   }
 }

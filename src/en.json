@@ -18,12 +18,12 @@
   "languageSelector": {
     "english": "English",
     "tamil": "தமிழ்",
-    "hindi": "हिन्दी",
-    "kannada": "ಕನ್ನಡ",
-    "telugu": "తెలుగు"
+    "hindi": "Hindi",
+    "kannada": "Kannada",
+    "telugu": "Telugu"
   },
   "login": {
-    "welcome": "Welcome Back!",
+    "welcome": "Welcome!",
     "subtitle": "Login to your account",
     "loginIdLabel": "Mobile Number / Email",
     "loginIdPlaceholder": "Enter mobile number or email",

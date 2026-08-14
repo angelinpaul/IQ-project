@@ -3,12 +3,16 @@ import "../styles/login.css";
 import english from "../en.json";
 import tamil from "../tn.json";
 import hindi from "../hindi.json";
+import kannada from "../styles/kannada.json";
+import telugu from "../telugu.json";
 import chimertechLogo from "../assets/logo.png";
 
 const languages = [
   { code: "en", label: "English", messages: english },
   { code: "ta", label: "தமிழ்", messages: tamil },
-  { code: "hi", label: "हिन्दी", messages: hindi },
+  { code: "hi", label: "Hindi", messages: hindi },
+  { code: "kn", label: "Kannada", messages: kannada },
+  { code: "te", label: "Telugu", messages: telugu },
 ];
 
 const Login = ({ languageCode, onCreateAccount, onTranslationsChange, onLogin }) => {

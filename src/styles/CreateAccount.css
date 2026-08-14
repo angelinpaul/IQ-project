@@ -486,7 +486,7 @@ input::placeholder {
 
   /* Move feature section below the form */
   .feature-side {
-    min-height: 570px;
+    min-height: 300px;
 
     border-left: 0;
 
@@ -496,9 +496,42 @@ input::placeholder {
 
   /* Adjust feature spacing */
   .features-list {
-    padding-top: 52px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: 8px;
+    padding: 30px 10px 145px;
+  }
 
-    gap: 32px;
+  .feature-side .feature {
+    width: auto;
+    min-width: 0;
+    padding: 0 2px;
+  }
+
+  .feature-side .feature-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 8px;
+  }
+
+  .feature-side .feature-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .feature-side .feature strong {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .feature-side .feature p {
+    margin-top: 5px;
+    font-size: 9px;
+    line-height: 1.4;
+  }
+
+  .farm-illustration {
+    height: 125px;
   }
 
 
@@ -507,4 +540,3 @@ input::placeholder {
     width: 115px;
   }
 }
-
