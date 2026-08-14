@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import Login from './pages/login';
 import CreateAccount from './pages/CreateAccount';
 import AddQMTDevice from './pages/AddQMTDevice';
+import PrivatePrivacy from './Components/PrivatePolicy/privateprivacy';
 import english from './en.json';
 import { assertPhoneAuthEnabled, requireSupabase } from './lib/supabase';
 
 const getPageFromHash = () => {
   const page = window.location.hash.slice(1);
-  return ['login', 'register', 'device'].includes(page) ? page : 'login';
+  return ['login', 'register', 'device', 'privacy'].includes(page) ? page : 'login';
 };
 
 export default function App() {
@@ -59,6 +60,7 @@ export default function App() {
   };
 
   if (page === 'device') return <AddQMTDevice messages={translations.deviceSetup} />;
+  if (page === 'privacy') return <PrivatePrivacy onBack={() => navigate('login')} />;
   if (page === 'register') {
     return <CreateAccount messages={translations.register} onLogin={() => navigate('login')} onRegister={register} />;
   }
@@ -67,5 +69,5 @@ export default function App() {
     setLanguageCode(nextCode);
   };
 
-  return <Login languageCode={languageCode} onTranslationsChange={changeLanguage} onCreateAccount={() => navigate('register')} onLogin={login} />;
+  return <Login languageCode={languageCode} onTranslationsChange={changeLanguage} onCreateAccount={() => navigate('register')} onPrivacy={() => navigate('privacy')} onLogin={login} />;
 }

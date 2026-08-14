@@ -15,7 +15,7 @@ const languages = [
   { code: "te", label: "Telugu", messages: telugu },
 ];
 
-const Login = ({ languageCode, onCreateAccount, onTranslationsChange, onLogin }) => {
+const Login = ({ languageCode, onCreateAccount, onTranslationsChange, onPrivacy, onLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
 
@@ -444,7 +444,10 @@ const Login = ({ languageCode, onCreateAccount, onTranslationsChange, onLogin })
       {/* ================= FOOTER ================= */}
 
       <footer className="footer">
-        {messages.footer}
+        <button type="button" className="privacy-link" onClick={onPrivacy}>
+          Privacy Policy
+        </button>
+        <span>{messages.footer}</span>
       </footer>
 
     </div>

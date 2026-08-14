@@ -829,6 +829,17 @@ body {
     0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
+.privacy-link {
+  margin-right: 14px;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 
 /* =========================================================
    AUTOFILL FIX
